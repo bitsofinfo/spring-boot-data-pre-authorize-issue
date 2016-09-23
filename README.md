@@ -27,7 +27,7 @@ onAfterCreate id: 1 Firstname:spring Lastname: buggy ID:my.test.TestRecord@5b864
 ## PATCH the record; (MyPermissionEvaluator will be called with NON-NULL targetObject on `findOne`, followed by NULL targetObject on `save`
 
 ```
-curl -X POST -H "Content-Type: application/json" -H "Authorization: Basic dXNlcjoxMjM=" -H "Cache-Control: no-cache" -d '{
+curl -X PATCH -H "Content-Type: application/json" -H "Authorization: Basic dXNlcjoxMjM=" -H "Cache-Control: no-cache" -d '{
    "firstname":"spring",
    "lastname":"buggy"
  }' "http://localhost:8080/testrecords/1"
