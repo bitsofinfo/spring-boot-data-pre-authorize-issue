@@ -40,3 +40,25 @@ onBeforeSave id: 1 Firstname:spring Lastname: buggy ID:my.test.TestRecord@a17f45
 MyPermissionEvaluator hasPermission_1() called: targetDomainObject=(targetDomainObject=null)
 onAfterSave id: 1 Firstname:spring Lastname: buggy ID:my.test.TestRecord@a17f455
 ```
+
+----------
+
+Note the only way this works if if you have *no-intermediary repository interfaces* between `PagingAndSortingRepository` and your end repository interface... which if we have to do that sort of defeats the purpose of being able to extend our own intermediary interfaces after PagingAndSortingRepository
+
+such as this... works as expected
+
+```
+@RepositoryRestResource(collectionResourceRel = "testrecords", path = "testrecords")
+public interface TestRecordRepository extends PagingAndSortingRepository<TestRecord,Integer> {
+
+
+    @Override
+    @PostAuthorize("hasPermission(returnObject, 'READ')")
+    TestRecord findOne(Integer id);
+
+	@Override
+	@PreAuthorize("hasPermission(#c,'CREATE,UPDATE')")
+	TestRecord save(@P("c") TestRecord data);
+	
+}
+```
